@@ -16,6 +16,7 @@
         <img src="" alt="" class="weather-icon" />
         <h1 class="temp">14°C</h1>
         <h1 class="city">City Name</h1>
+        <h1 class="weatherDescription"></h1>
         <div class="details">
           <div class="col">
             <img src="../assets/humidity.png" />
@@ -36,7 +37,100 @@
     </div>
 
     <script>
+      const apiKey = "01bb5908f62100e6629c5228f48e28c6";
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric";
+
+
+      const searchButton = document.querySelector(".search button");
+      searchButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        getWeatherData(document.querySelector(".search-bar").value);
+      });
+
       
+      // Get user location
+      function showPosition(position) {
+        console.log(
+          "Latitude: " +
+            position.coords.latitude +
+            "Longitude: " +
+            position.coords.longitude
+        );
+        getWeatherData({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+      }
+
+
+      console.log(navigator.geolocation.getCurrentPosition(showPosition));
+      // Get user location on page load
+      document.body.onload = getWeatherData(
+        Navigator.geolocation.getCurrentPosition(showPosition)
+      );
+
+
+      async function getWeatherData(location) {
+        const query =
+          typeof location === "string"
+            ? `&q=${location}`
+            : `&lat=${location.lat}&lon=${location.lon}`;
+        const response = await fetch(apiUrl + query + `&appid=${apiKey}`);
+        var data = await response.json();
+        console.log(data);
+        document.querySelector(".city").innerText = data.name;
+        document.querySelector(".temp").innerText = data.main.temp + "°C";
+        document.querySelector(".humidity").innerText =
+          data.main.humidity + "%";
+        document.querySelector(".wind").innerText = data.wind.speed + "km/h";
+        document.querySelector(".weatherDescription").innerText =
+          data.weather[0].description;
+
+
+ 
+        // set time to seconds and add timezone offset
+        const timezoneOffset = new Date().getTimezoneOffset() * 60;
+        const currentDate = new Date();
+        console.log(currentDate);
+        const searchLocationDate = new Date(
+          currentDate.setSeconds(
+            currentDate.getSeconds() + data.timezone + timezoneOffset
+          )
+
+
+
+
+         
+        );
+
+
+        // Sunrise and sunset time
+        const sunriseTimestamp =
+          (data.sys.sunrise + data.timezone + timezoneOffset) * 1000;
+        const sunsetTimestamp =
+          (data.sys.sunset + data.timezone + timezoneOffset) * 1000;
+
+
+        const sunriseDate = new Date(sunriseTimestamp);
+        const sunsetDate = new Date(sunsetTimestamp);
+
+
+        if (
+          sunriseDate < searchLocationDate &&
+          searchLocationDate < sunsetDate
+        ) {
+          document.body.style.backgroundImage =
+            "url(../assets/background-d.png)";
+        } else {
+          document.body.style.backgroundImage =
+            "url(../assets/background-n.png)";
+        }
+        document.querySelector(
+          ".weather-icon"
+        ).src = ` https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+      }
+
     </script>
   </body>
 </html>
