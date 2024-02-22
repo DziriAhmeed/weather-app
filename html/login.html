@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/loginStyle.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <section class="show-container" id="container1">
+      <h2>Welcome</h2>
+      <section class="section">
+        <img src="../assets/authIllustration.png" alt="" />
+        <form class="form" id="signInForm" action="">
+          <label for="">Email</label>
+          <input id="signInEmail" name="email" type="text" />
+          <span id="error"></span>
+          <label for="">Password</label>
+          <input id="signInPassword" name="password" type="password" />
+          <span id="signInError"></span>
+          <button type="submit">Login</button>
+        </form>
+      </section>
+      <h3>Don't have an account ? <button id="signUpButton">Sign Up</button></h3>
+    </section>
+
+
+    <section class="hiden-container" id="container2">
+        <h2>Welcome</h2>
+    <section class="section">
+      <img src="../assets/authIllustration.png" alt="" />
+      <form class="form" id="signUpForm" action="">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" />
+        <span id="emailError"></span>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" />
+        <span id="passwordError"></span>
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" />
+        <span id="confirmPasswordError"></span>
+        <button type="submit">Sign Up</button>
+      </form>
+    </section>
+    <h3>Already have an account ? <button id="signInButton">Sign In</button></h3>
+    </section>
+
+    <script src="../js/auth.js"></script>
+  </body>
+</html>
